@@ -1,85 +1,120 @@
-# Semantic and Anomaly Segmentation with Mask Architectures
+# Comprehensive Road Scene Understanding for Autonomous Driving
 
-This repository contains the codebase and experiments for the course project on **Semantic and Anomaly Segmentation**. The project explores the evolution of segmentation models (from pixel-based to mask-based architectures) and evaluates various post-hoc methods for anomaly detection in urban driving scenes.
+**FAIMDL 2026 — Group 16**
 
-📄 **[Insert Link to the Final PDF Report Here]**
+This repository contains the code and experiments for the course project on semantic and anomaly segmentation for autonomous driving. The project explores the progression from pixel-based (ERFNet) to mask-based architectures (EoMT) and evaluates post-hoc anomaly detection methods on driving-scene benchmarks.
 
----
-
-## 📌 Project Overview
-
-The project is structured into three main phases, moving from theoretical understanding to practical implementation and evaluation of state-of-the-art segmentation models (ERFNet, DINOv2, EoMT).
-
-### **Phase A: Theoretical Study (Steps 1-3)**
-A comprehensive review of the evolution of segmentation architectures:
-*   **Semantic Segmentation:** Understanding pixel-level classification and encoder-decoder structures (ERFNet).
-*   **Panoptic Segmentation:** Unifying semantic (stuff) and instance (things) segmentation.
-*   **Mask Architectures:** Tracing the shift from per-pixel paradigms to mask classification (`MaskFormer` → `Mask2Former` → `EoMT`), leveraging large-scale self-supervised ViT pre-training (`DINOv2`).
-
-### **Phase B: Segmentation Experimentation (Steps 4-5)**
-Practical evaluation and fine-tuning of the **Encoder-only Mask Transformer (EoMT)**:
-*   **Step 4 - Model Comparison:** Qualitative and quantitative (mIoU) evaluation of two EoMT checkpoints trained on COCO (panoptic) and Cityscapes (semantic). This includes a custom class-mapping strategy to align COCO classes with Cityscapes train IDs.
-*   **Step 5 - Fine-Tuning:** Leveraging COCO's visual priors by fine-tuning the COCO-pretrained EoMT model on the Cityscapes dataset, experimenting with head-only adaptation and backbone unfreezing.
-
-### **Phase C: Anomaly Segmentation (Steps 6-8)**
-Application of post-hoc anomaly detection methods to identify Out-of-Distribution (OoD) objects:
-*   **Post-Hoc Methods Evaluated:** Maximum Softmax Probability (MSP), MaxLogit, Max Entropy, and Rejected by All (RbA).
-*   **Step 7 - Pixel-Based Baseline:** Evaluating post-hoc methods on the **ERFNet** architecture.
-*   **Step 8 - Mask-Based Evaluation:** Adapting the evaluation pipeline to extract pixel-wise confidence scores from EoMT mask outputs. The methods are evaluated across multiple EoMT checkpoints, including Temperature Scaling optimizations.
+📄 **Report:** [PDF](link-to-report) <!-- Replace with actual link after submission -->
 
 ---
 
-## 📊 Datasets
+## Repository Structure
 
-The experiments utilize the following datasets:
-*   **Cityscapes:** Used for semantic segmentation evaluation and fine-tuning (requires `gtFine` and `leftImg8bit`).
-*   **COCO:** Used implicitly via the pre-trained EoMT checkpoint.
-*   **Anomaly Validation Datasets:** SMIYC (RA-21, RO-21), Fishyscapes (L&F, Static), and Road Anomaly.
-
----
-
-## 🚀 How to Run the Code
-
-The codebase is designed to be executed in **Google Colab** to leverage GPU acceleration (and AMP for memory efficiency). 
-
-1. Clone this repository to your local machine or directly in your Colab environment:
-   ```bash
-   git clone https://github.com/[Your-Username]/[Repo-Name].git
-   ```
-2. Navigate to the `notebooks/` (or `src/`) directory where the `.ipynb` files are stored.
-3. Open the desired notebook in Google Colab.
-4. Follow the instructions within the first cell of each notebook to mount your Google Drive, set up the environment (`pip install -r requirements.txt`), and download the required weights/datasets.
-
----
-
-## 📈 Key Deliverables
-
-*   **Qualitative Results:** Side-by-side visual comparisons of Semantic vs. Panoptic predictions.
-*   **mIoU Table:** Quantitative comparison of the base Cityscapes model, base COCO model, and our Fine-tuned model.
-*   **Anomaly Detection Metrics:** Extensive evaluation tables reporting **AuPRC** and **FPR95** across 5 datasets, comparing ERFNet and multiple EoMT configurations.
-
----
-
-## 👥 Team & Contributions
-
-*   **[Name 1]**: Theoretical study (Steps 1-3), Anomaly segmentation background (Step 6), and Final Report formulation.
-*   **[Name 2]**: Model comparison pipeline, evaluation logic, and COCO-Cityscapes class mapping strategy (Step 4).
-*   **[Name 3]**: Fine-tuning implementation, AMP optimization, and LoRA experimentation (Step 5).
-*   **[Name 4]**: ERFNet anomaly baselines (Step 7), EoMT post-hoc adaptation, RbA implementation, and Temperature Scaling (Step 8).
-
----
-
-## 📚 References
-
-The project builds upon the following key papers and architectures:
-
-| Reference | Topic / Architecture |
-| :--- | :--- |
-| **[10]** | ERFNet: Efficient Residual Factorized ConvNet for Real-time Semantic Segmentation |
-| **[11]** | Panoptic Segmentation (Kirillov et al.) |
-| **[3, 4]** | MaskFormer & Mask2Former |
-| **[5]** | DINOv2: Learning Robust Visual Features without Supervision |
-| **[6]** | EoMT (Encoder-only Mask Transformer) |
-| **[1, 2]** | SMIYC (SegmentMeIfYouCan) & Fishyscapes Benchmarks |
-| **[7, 8]** | RbA (Rejected by All) & Scaling Out-of-Distribution Detection (MaxLogit) |
 ```
+├── notebooks/
+│   ├── Step4_EoMT_Comparison.ipynb      # EoMT-CS vs EoMT-COCO evaluation
+│   ├── faimdl-project-step-5.ipynb      # Fine-tuning EoMT-COCO on Cityscapes
+│   ├── step7_erfnet_baselines.ipynb     # ERFNet anomaly baselines (MSP, MaxLogit, MaxEntropy)
+│   └── step8_eomt_anomaly.ipynb         # EoMT anomaly eval + RbA + temp scaling
+├── eval/                                 # ERFNet evaluation scripts (from base repo)
+│   ├── erfnet.py                         # ERFNet model definition
+│   ├── evalAnomaly.py                    # MaxLogit reference implementation
+│   └── ...
+├── eomt/                                 # EoMT codebase
+│   ├── configs/                          # Model configurations
+│   ├── models/                           # EoMT model definition
+│   └── inference.ipynb                   # EoMT inference demo
+├── trained_models/                       # ERFNet pretrained weights
+│   ├── erfnet_pretrained.pth
+│   └── erfnet_encoder_pretrained.pth.tar
+└── README.md
+```
+
+---
+
+## How to Reproduce
+
+### Requirements
+
+- Python 3.10+
+- PyTorch 2.x with CUDA support
+- GPU with ≥8 GB VRAM (T4/P100 or better)
+
+### Datasets
+
+1. **Cityscapes** (Steps 4–5): download from [cityscapes-dataset.com](https://www.cityscapes-dataset.com/) (`gtFine` + `leftImg8bit`)
+2. **Anomaly Validation Datasets** (Steps 7–8): `Anomaly_Validation_Datasets.zip` from the course Drive folder. Contains:
+   - `RoadAnomaly21/` — SMIYC RA-21 (10 images)
+   - `RoadObsticle21/` — SMIYC RO-21 (30 images)
+   - `FS_LostFound_full/` — FishyScapes Lost & Found (100 images)
+   - `fs_static/` — FishyScapes Static (30 images)
+   - `RoadAnomaly/` — Road Anomaly (60 images)
+
+### Running the Notebooks
+
+Each notebook is self-contained and designed to run on **Kaggle** with GPU acceleration.
+
+| Notebook | Step | Platform | GPU needed |
+|----------|------|----------|------------|
+| `Step4_EoMT_Comparison.ipynb` | 4 | Kaggle/Colab | Yes |
+| `faimdl-project-step-5.ipynb` | 5 | Kaggle/Colab | Yes (AMP) |
+| `step7_erfnet_baselines.ipynb` | 7 | Kaggle | Optional (CPU works) |
+| `step8_eomt_anomaly.ipynb` | 8 | Kaggle | Yes |
+
+**Steps:**
+1. Upload the relevant dataset as a Kaggle Dataset
+2. Open the notebook and click **Add Input** to attach the dataset
+3. Set Accelerator to **GPU T4** (or P100) in notebook settings
+4. Run all cells — paths are configured at the top of each notebook
+
+### EoMT Checkpoints
+
+Download from the [EoMT model zoo](https://github.com/tkerssies/EoMT) (or course Drive):
+- `eomt_cityscapes_semantic.pth` — trained on Cityscapes (19 classes)
+- `eomt_coco_panoptic.pth` — trained on COCO (133 classes)
+
+---
+
+## Results Summary
+
+### Semantic Segmentation (Cityscapes val)
+
+| Model | mIoU |
+|-------|------|
+| EoMT-CS | 81.7% |
+| EoMT-COCO (mapped) | 48.5% |
+| EoMT-FT (head-only, 5 ep.) | 71.8% |
+
+### Anomaly Segmentation — Pixel-based Baseline (ERFNet)
+
+| Method | RA-21 AuPRC | RO-21 AuPRC | FS L&F AuPRC | FS Static AuPRC |
+|--------|-------------|-------------|--------------|-----------------|
+| MSP | 15.8 | 1.4 | 0.5 | 1.3 |
+| Max Logit | 15.6 | 2.2 | 0.4 | 1.3 |
+| Max Entropy | 15.1 | 1.3 | 0.5 | 1.2 |
+
+---
+
+## Team — Group 16
+
+| Member | Contribution |
+|--------|-------------|
+| Federico Remy | Steps 4, 7, 8 — evaluation pipelines, anomaly baselines, report |
+| [Name 2] | [contribution] |
+| [Name 3] | [contribution] |
+| [Name 4] | [contribution] |
+
+---
+
+## References
+
+- Romera et al., *ERFNet*, IEEE T-ITS 2018
+- Kirillov et al., *Panoptic Segmentation*, CVPR 2019
+- Cheng et al., *MaskFormer*, NeurIPS 2021
+- Cheng et al., *Mask2Former*, CVPR 2022
+- Kerssies et al., *EoMT*, CVPR 2025
+- Oquab et al., *DINOv2*, TMLR 2023
+- Nayal et al., *RbA*, ICCV 2023
+- Hendrycks et al., *Scaling OoD Detection*, ICML 2022
+- Chan et al., *SegmentMeIfYouCan*, NeurIPS 2021
+- Blum et al., *FishyScapes*, ICCVW 2019
