@@ -100,7 +100,7 @@ Download from the [EoMT model zoo](https://github.com/tkerssies/EoMT) (or course
 | Member | Contribution |
 |--------|-------------|
 | Federico Remy | Steps 4, 7, 8 — evaluation pipelines, anomaly baselines, report |
-| [Name 2] | [contribution] |
+| Jokebed Queen Lusambo| step 5, step 6, step 7, step 8: structure of the code, anomaly baseline. |
 | [Name 3] | [contribution] |
 | [Name 4] | [contribution] |
 
