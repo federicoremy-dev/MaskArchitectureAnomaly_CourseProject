@@ -99,10 +99,10 @@ Download from the [EoMT model zoo](https://github.com/tkerssies/EoMT) (or course
 
 | Member | Contribution |
 |--------|-------------|
-| Federico Remy | Steps 4, 7, 8 — evaluation pipelines, anomaly baselines, report |
-| Jokebed Queen Lusambo| step 5, step 6, step 7, step 8: structure of the code, anomaly baseline. |
-| [Name 3] | [contribution] |
-| [Name 4] | [contribution] |
+| Federico Remy | Steps 4, 6, 7, 8 — Designed the COCO-to-Cityscapes class mapping and unified evaluation pipeline for semantic, instance, and panoptic segmentation; studied anomaly segmentation task and post-hoc methods; implemented pixel-based anomaly baselines (ERFNet + MSP, MaxLogit, MaxEntropy); implemented mask-based anomaly baselines (EoMT + MSP, MaxLogit, MaxEntropy, RbA) with temperature scaling; wrote and structured the final report |
+| Jokebed Queen Lusambo | Steps 5, 7, 8 — Fine-tuned the COCO-trained EoMT on the Cityscapes training set; contributed to pixel-based and mask-based anomaly evaluation |
+| Sphoorthi Madutha | Steps 1, 2, 3 — Studied semantic segmentation and ERFNet; studied instance and panoptic segmentation; reviewed mask architecture literature (MaskFormer, Mask2Former, EoMT/DINOv2) |
+| Ali Ghorbanpour | Steps 1, 2, 3 — Studied semantic segmentation and ERFNet; studied instance and panoptic segmentation; reviewed mask architecture literature (MaskFormer, Mask2Former, EoMT/DINOv2) |
 
 ---
 
