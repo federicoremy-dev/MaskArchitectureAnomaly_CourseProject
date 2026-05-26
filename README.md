@@ -4,7 +4,7 @@
 
 This repository contains the code and experiments for the course project on semantic and anomaly segmentation for autonomous driving. The project explores the progression from pixel-based (ERFNet) to mask-based architectures (EoMT) and evaluates post-hoc anomaly detection methods on driving-scene benchmarks.
 
-📄 **Report:** [PDF](link-to-report) <!-- Replace with actual link after submission -->
+📄 **Report:** [PDF](https://it.overleaf.com/read/tctzsyfqbwft#0e5b5e) <!-- Replace with actual link after submission -->
 
 ---
 
@@ -12,10 +12,10 @@ This repository contains the code and experiments for the course project on sema
 
 ```
 ├── notebooks/
-│   ├── Step4_EoMT_Comparison.ipynb      # EoMT-CS vs EoMT-COCO evaluation
-│   ├── faimdl-project-step-5.ipynb      # Fine-tuning EoMT-COCO on Cityscapes
-│   ├── step7_erfnet_baselines.ipynb     # ERFNet anomaly baselines (MSP, MaxLogit, MaxEntropy)
-│   └── step8_eomt_anomaly.ipynb         # EoMT anomaly eval + RbA + temp scaling
+│   ├── Step4_EoMT_Comparison.ipynb          # EoMT-CS vs EoMT-COCO evaluation
+│   ├── Step5_finetune_EoMT.ipynb            # Fine-tuning EoMT-COCO on Cityscapes
+│   ├── Step7_ERFnet_Anomaly_Baseline.ipynb  # ERFNet anomaly baselines (MSP, MaxLogit, MaxEntropy)
+│   └── Step8_EoMT_Anomaly_Baseline.ipynb   # EoMT anomaly eval + RbA + temp scaling
 ├── eval/                                 # ERFNet evaluation scripts (from base repo)
 │   ├── erfnet.py                         # ERFNet model definition
 │   ├── evalAnomaly.py                    # MaxLogit reference implementation
@@ -57,9 +57,9 @@ Each notebook is self-contained and designed to run on **Kaggle** with GPU accel
 | Notebook | Step | Platform | GPU needed |
 |----------|------|----------|------------|
 | `Step4_EoMT_Comparison.ipynb` | 4 | Kaggle/Colab | Yes |
-| `faimdl-project-step-5.ipynb` | 5 | Kaggle/Colab | Yes (AMP) |
-| `step7_erfnet_baselines.ipynb` | 7 | Kaggle | Optional (CPU works) |
-| `step8_eomt_anomaly.ipynb` | 8 | Kaggle | Yes |
+| `Step5_finetune_EoMT.ipynb` | 5 | Kaggle/Colab | Yes (AMP) |
+| `Step7_ERFnet_Anomaly_Baseline.ipynb` | 7 | Kaggle | Optional (CPU works) |
+| `Step8_EoMT_Anomaly_Baseline.ipynb` | 8 | Kaggle | Yes |
 
 **Steps:**
 1. Upload the relevant dataset as a Kaggle Dataset
@@ -70,30 +70,11 @@ Each notebook is self-contained and designed to run on **Kaggle** with GPU accel
 ### EoMT Checkpoints
 
 Download from the [EoMT model zoo](https://github.com/tkerssies/EoMT) (or course Drive):
-- `eomt_cityscapes_semantic.pth` — trained on Cityscapes (19 classes)
-- `eomt_coco_panoptic.pth` — trained on COCO (133 classes)
+- `eomt_cityscapes.bin` — trained on Cityscapes (19 classes)
+- `eomt_coco.bin` — trained on COCO (133 classes)
+- `eomt_ft_head_epoch04.ckpt` — fine-tuned head on Cityscapes (19 classes)
 
----
 
-## Results Summary
-
-### Semantic Segmentation (Cityscapes val)
-
-| Model | mIoU |
-|-------|------|
-| EoMT-CS | 81.7% |
-| EoMT-COCO (mapped) | 48.5% |
-| EoMT-FT (head-only, 5 ep.) | 71.8% |
-
-### Anomaly Segmentation — Pixel-based Baseline (ERFNet)
-
-| Method | RA-21 AuPRC | RO-21 AuPRC | FS L&F AuPRC | FS Static AuPRC |
-|--------|-------------|-------------|--------------|-----------------|
-| MSP | 15.8 | 1.4 | 0.5 | 1.3 |
-| Max Logit | 15.6 | 2.2 | 0.4 | 1.3 |
-| Max Entropy | 15.1 | 1.3 | 0.5 | 1.2 |
-
----
 
 ## Team — Group 16
 
