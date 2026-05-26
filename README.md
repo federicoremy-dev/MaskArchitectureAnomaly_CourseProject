@@ -4,7 +4,6 @@
 
 This repository contains the code and experiments for the course project on semantic and anomaly segmentation for autonomous driving. The project explores the progression from pixel-based (ERFNet) to mask-based architectures (EoMT) and evaluates post-hoc anomaly detection methods on driving-scene benchmarks.
 
-📄 **Report:** [PDF](https://it.overleaf.com/read/tctzsyfqbwft#0e5b5e) <!-- Replace with actual link after submission -->
 
 ---
 
@@ -45,7 +44,7 @@ This repository contains the code and experiments for the course project on sema
 1. **Cityscapes** (Steps 4–5): download from [cityscapes-dataset.com](https://www.cityscapes-dataset.com/) (`gtFine` + `leftImg8bit`)
 2. **Anomaly Validation Datasets** (Steps 7–8): `Anomaly_Validation_Datasets.zip` from the course Drive folder. Contains:
    - `RoadAnomaly21/` — SMIYC RA-21 (10 images)
-   - `RoadObsticle21/` — SMIYC RO-21 (30 images)
+   - `RoadObstacle21/` — SMIYC RO-21 (30 images)
    - `FS_LostFound_full/` — FishyScapes Lost & Found (100 images)
    - `fs_static/` — FishyScapes Static (30 images)
    - `RoadAnomaly/` — Road Anomaly (60 images)
@@ -85,6 +84,37 @@ Download from the [EoMT model zoo](https://github.com/tkerssies/EoMT) (or course
 | Sphoorthi Madutha | Steps 1, 2, 3 — Studied semantic segmentation and ERFNet; studied instance and panoptic segmentation; reviewed mask architecture literature (MaskFormer, Mask2Former, EoMT/DINOv2) |
 | Ali Ghorbanpour | Steps 1, 2, 3 — Studied semantic segmentation and ERFNet; studied instance and panoptic segmentation; reviewed mask architecture literature (MaskFormer, Mask2Former, EoMT/DINOv2) |
 
+---
+
+## Key Results
+
+### Semantic Segmentation — mIoU on Cityscapes val (Step 4–5)
+
+| Model | mIoU (%) |
+|-------|----------|
+| EoMT-Cityscapes | 81.7 |
+| EoMT-COCO (mapped) | 48.5 |
+| EoMT-FT (COCO → Cityscapes) | 71.8 |
+
+### Anomaly Segmentation — AuPRC (%) ↑ / FPR@95 (%) ↓
+
+**ERFNet (pixel-based) — Step 7**
+
+| Method | RA-21 | RO-21 | FS L&F | FS Static | Road Anomaly |
+|--------|-------|-------|--------|-----------|--------------|
+| MSP | 15.8 / 89.7 | 1.4 / 54.0 | 0.5 / 73.3 | 1.3 / 91.8 | 10.4 / 89.5 |
+| MaxLogit | 15.6 / 88.4 | 2.2 / 56.2 | 0.4 / 71.8 | 1.3 / 86.8 | 10.2 / 87.1 |
+| MaxEntropy | 15.1 / 89.8 | 1.3 / 54.1 | 0.5 / 73.4 | 1.2 / 92.0 | 10.0 / 89.7 |
+
+**EoMT (mask-based) — Step 8 — best per-checkpoint results**
+
+| Model | Method | RA-21 | RO-21 | FS L&F | FS Static | Road Anomaly |
+|-------|--------|-------|-------|--------|-----------|--------------|
+| EoMT-COCO | RbA | **37.7** / **47.7** | **26.8** / **37.0** | 0.5 / 56.7 | 2.5 / 64.9 | **22.6** / **53.3** |
+| EoMT-CS | RbA | 33.8 / 61.0 | 15.5 / 46.5 | 0.9 / 55.5 | 2.3 / 69.8 | 18.4 / 61.6 |
+| EoMT-FT | MaxLogit | 34.6 / 69.8 | 11.2 / 71.7 | **1.1** / 54.0 | **4.6** / **60.8** | 21.6 / 71.0 |
+
+> RbA on EoMT-COCO achieves the strongest anomaly detection overall, with up to 2.4× the AuPRC of the best ERFNet baseline on RA-21. The fine-tuned model (EoMT-FT) offers the best trade-off on FS Static. Full results including temperature scaling are in the report.
 ---
 
 ## References
